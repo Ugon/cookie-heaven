@@ -1,9 +1,19 @@
 package pl.edu.agh.iosr.cookieHeaven.order
 
-import pl.edu.agh.iosr.cookieHeaven.domain.SugarFreeCookie
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.{ComponentScan, Configuration}
 
-object Main extends App {
 
-  println(s"Order: $SugarFreeCookie")
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+class MainConfig
+
+object Main {
+
+  def main(args: Array[String]): Unit = {
+    SpringApplication.run(classOf[MainConfig])
+  }
 
 }
