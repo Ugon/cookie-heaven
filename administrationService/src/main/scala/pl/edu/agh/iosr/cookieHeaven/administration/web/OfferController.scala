@@ -16,6 +16,6 @@ class OfferController @Autowired()(offerService: OfferService) {
 //  def getAllOffers: Array[Offer] = ???
 //
 //  @RequestMapping(method = Array(RequestMethod.POST))
-//  def insert(@RequestBody offer: Offer): Unit = ???
+//  def insert(): Unit = ???
 
 }

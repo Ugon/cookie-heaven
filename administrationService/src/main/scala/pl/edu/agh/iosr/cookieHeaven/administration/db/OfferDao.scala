@@ -14,3 +14,5 @@ class OfferDao private(mongoCollection: MongoCollection[Offer]) {
 object OfferDao {
   def create(mongoDatabase: MongoDatabase): OfferDao = new OfferDao(mongoDatabase.getCollection("Offer", classOf[Offer]))
 }
+
+//todo analog do order
