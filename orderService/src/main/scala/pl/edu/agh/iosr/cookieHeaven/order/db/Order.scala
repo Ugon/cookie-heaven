@@ -1,4 +1,4 @@
-package pl.edu.agh.iosr.cookieHeaven.domain
+package pl.edu.agh.iosr.cookieHeaven.order.db
 
 /**
   * @author Wojciech Pachuta.

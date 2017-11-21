@@ -1,4 +1,4 @@
-package pl.edu.agh.iosr.cookieHeaven.domain
+package pl.edu.agh.iosr.cookieHeaven.administration.db
 
 import org.springframework.data.mongodb.core.mapping.Document
 

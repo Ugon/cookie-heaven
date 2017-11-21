@@ -1,18 +1,22 @@
 package pl.edu.agh.iosr.cookieHeaven.order.service
 
+import java.util
+
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import pl.edu.agh.iosr.cookieHeaven.domain.Order
-import pl.edu.agh.iosr.cookieHeaven.order.db.OrderDao
+import pl.edu.agh.iosr.cookieHeaven.order.db.{Order, OrderRepository}
 
 /**
   * @author Wojciech Pachuta.
   */
 
 @Service
-class OrderService(orderDao: OrderDao) {
+class OrderService @Autowired()(orderRepository: OrderRepository) {
 
-  def insert(order: Order): Unit = orderDao.insert(order)
+  def insert(order: Order): Order = orderRepository.insert(order)
 
-  def getAll: Iterable[Order] = orderDao.getAll
+  def list: util.List[Order] = orderRepository.findAll()
+
+  def findByOfferId(id: String): util.List[Order] = orderRepository.findByOfferId(id)
 
 }
