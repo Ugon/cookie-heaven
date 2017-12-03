@@ -19,4 +19,6 @@ class OrderService @Autowired()(orderRepository: OrderRepository) {
 
   def findByOfferId(id: String): util.List[Order] = orderRepository.findByOfferId(id)
 
+  def remove(id: String): Unit = orderRepository.delete(id)
+
 }

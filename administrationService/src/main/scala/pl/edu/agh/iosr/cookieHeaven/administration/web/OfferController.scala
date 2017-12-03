@@ -3,14 +3,11 @@ package pl.edu.agh.iosr.cookieHeaven.administration.web
 import java.util
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.DefaultHttpClient
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation._
-import pl.edu.agh.iosr.cookieHeaven.administration.db.{Offer, ScalaObjectMapper}
-import pl.edu.agh.iosr.cookieHeaven.administration.service.OfferService
-
-import scala.collection.JavaConverters._
+import pl.edu.agh.iosr.cookieHeaven.administration.db.Offer
+import pl.edu.agh.iosr.cookieHeaven.administration.service.{OfferService, OrderService}
 
 
 /**
@@ -20,9 +17,7 @@ import scala.collection.JavaConverters._
 
 @RestController
 @RequestMapping(Array("/offers"))
-class OfferController(offerService: OfferService) {
-
-  val orderServiceUrl = "http://localhost:8002" //fixme hardcoded port
+class OfferController @Autowired()(offerService: OfferService, orderService: OrderService) {
 
   @GetMapping
   def listOffers: util.List[Offer] = offerService.list()
@@ -40,18 +35,18 @@ class OfferController(offerService: OfferService) {
   }
 
   @DeleteMapping(Array("{id}"))
-  //todo handle deletions of offers that had been ordered
-  def delete(@PathVariable id: String): Unit = offerService.remove(id)
-
-  @GetMapping(Array("/{id}/orders}"))
-  def listOrdersForOffer(@PathVariable id: String): Iterable[JsonNode] = {
-    val client = new DefaultHttpClient()
-    val response = client.execute(new HttpGet(s"$orderServiceUrl/offers/$id"))
-    val mapper = new ScalaObjectMapper
-    val json = mapper.readTree(response.getEntity.getContent)
-    client.getConnectionManager.shutdown()
-    json.asScala
+  def delete(@PathVariable id: String): Unit = {
+    val orders = listOrdersForOffer(id)
+    if(orders.isEmpty)
+      offerService.remove(id)
+    else
+      throw new ExistingOrdersException(s"Orders associated with offer $id exist")
   }
+
+  @GetMapping(Array("{id}/orders"))
+  def listOrdersForOffer(@PathVariable id: String): Iterable[JsonNode] =
+    orderService.listOrdersForOffer(id)
+
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -59,7 +54,14 @@ class OfferController(offerService: OfferService) {
     offerNotFoundException.getMessage
   }
 
+  @ExceptionHandler
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  def handleException(existingOrdersException: ExistingOrdersException): String = {
+    existingOrdersException.getMessage
+  }
+
 }
 
 class OfferNotFoundException(message: String) extends RuntimeException
+class ExistingOrdersException(message: String) extends RuntimeException
 
