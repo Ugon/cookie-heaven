@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: adminservice
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: adminservice
+    spec:
+      containers:
+        - name: adminservice
+          image: ugon/adminservice:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8001
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: adminservice
+spec:
+  selector:
+    app: adminservice
+  type: NodePort
+  ports:
+  - port: 8001
+    nodePort: 30001

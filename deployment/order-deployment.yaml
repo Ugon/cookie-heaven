@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: orderservice
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: orderservice
+    spec:
+      containers:
+        - name: orderservice
+          image: ugon/orderservice:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8002
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: orderservice
+spec:
+  selector:
+    app: orderservice
+  type: NodePort
+  ports:
+  - port: 8002
+    nodePort: 30002
