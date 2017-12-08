@@ -22,5 +22,4 @@ class OfferService @Autowired()(offerRepository: OfferRepository) {
 
   def remove(id: String): Unit = offerRepository.delete(id)
 
-
 }

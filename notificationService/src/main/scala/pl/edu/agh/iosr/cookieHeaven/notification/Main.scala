@@ -16,7 +16,5 @@ class MainConfig {
 }
 
 object Main extends App {
-
   SpringApplication.run(classOf[MainConfig])
-
 }

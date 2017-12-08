@@ -16,7 +16,6 @@ class OrderService {
 
   def listOrdersForOffer(id: String): Iterable[JsonNode] = {
     val response = client.execute(new HttpGet(s"$orderServiceUrl/orders/offers/$id"))
-    println("DUIPA", response)
     val mapper = new ScalaObjectMapper
     val json = mapper.readTree(response.getEntity.getContent)
     json.asScala

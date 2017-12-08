@@ -11,7 +11,6 @@ class MainConfig {
   @Bean
   @Primary
   def scalaObjectMapper() = new ScalaObjectMapper
-
 }
 
 object Main extends App {

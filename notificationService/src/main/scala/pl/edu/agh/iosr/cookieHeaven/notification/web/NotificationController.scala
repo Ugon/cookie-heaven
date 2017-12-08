@@ -22,8 +22,8 @@ class NotificationController @Autowired()(notificationService: NotificationServi
   def list: util.List[Subscription] = notificationService.list()
 
   @PostMapping
-  def add(@RequestBody subscription: Subscription): Subscription
-    = notificationService.add(subscription)
+  def add(@RequestBody subscription: Subscription): Subscription =
+    notificationService.add(subscription)
 
   @GetMapping(Array("{id}"))
   def get(@PathVariable id: String): Subscription = notificationService.get(id)
@@ -32,7 +32,7 @@ class NotificationController @Autowired()(notificationService: NotificationServi
   def delete(@PathVariable id: String): Unit = notificationService.remove(id)
 
 
-  @Scheduled(fixedRate = 60000)
+  @Scheduled(fixedRate = 5000)
   def generateReport(): Unit = {
 
     val subscriptions = notificationService.list().asScala

@@ -37,7 +37,7 @@ class OfferController @Autowired()(offerService: OfferService, orderService: Ord
   @DeleteMapping(Array("{id}"))
   def delete(@PathVariable id: String): Unit = {
     val orders = listOrdersForOffer(id)
-    if(orders.isEmpty)
+    if (orders.isEmpty)
       offerService.remove(id)
     else
       throw new ExistingOrdersException(s"Orders associated with offer $id exist")
@@ -63,5 +63,6 @@ class OfferController @Autowired()(offerService: OfferService, orderService: Ord
 }
 
 class OfferNotFoundException(message: String) extends RuntimeException
+
 class ExistingOrdersException(message: String) extends RuntimeException
 
