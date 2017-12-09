@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
 @Service
 class OfferService {
 
-  val offerServiceUrl = "http://localhost:8001" //fixme hardcoded port
+  val offerServiceUrl = "http://adminservice:8001"
 
   def get(offerId: String): HttpResponse = {
     val client = new DefaultHttpClient()

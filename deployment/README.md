@@ -86,13 +86,8 @@ kubectl apply -f role-binding.yaml
 kubectl apply -f storage-class.yaml # customize IP first
 kubectl apply -f mongo1-statefulset.yaml 
 kubectl apply -f mongo2-statefulset.yaml 
+kubectl apply -f mongo3-statefulset.yaml 
 ```
-
-2 last commands create 2 configured database replica sets. To use them in code they can be referred to by:
-```
-mongodb://mongo1-0.mongo1:27017,mongo1-1.mongo1:27017,mongo1-2.mongo1:27017
-mongodb://mongo2-0.mongo2:27017,mongo2-1.mongo2:27017,mongo2-2.mongo2:27017
-``` 
 
 8. build project and docker images:
 
@@ -104,21 +99,19 @@ ugon/notifservice
 ```
 
 ```
-#in main directory
 mvn package      
 
-#in administrationService directory
-sudo docker build --no-cache -t ugon/adminservice . 
+sudo docker build --no-cache -t ugon/adminservice ./administrationService
 sudo docker push ugon/adminservice  
 
-#in orderService directory
-sudo docker build --no-cache -t ugon/orderservice . 
+sudo docker build --no-cache -t ugon/orderservice ./orderService
 sudo docker push ugon/orderservice  
 
-#in nofificationService directory
-sudo docker build --no-cache -t ugon/notifservice . 
+sudo docker build --no-cache -t ugon/notifservice ./notificationService
 sudo docker push ugon/notifservice  
 ```
+
+this can also be used to rebuild and replublish updated images to dockerhub
 
 8. deploy services to kubernetes:
 ```
@@ -130,4 +123,12 @@ kubectl apply -f notif-deployment.yaml
 for now services are deployed in NodePort mode - they are available on IPs of all VMs running kubernetes.
 admin service is available on port 30001
 order service is available on port 30002
+notif service is available on port 30003
  
+ 
+9. updating deployment - for example after rebuilding and republishing images to dockerhub
+```
+kubectl patch deployment adminservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+kubectl patch deployment orderservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+kubectl patch deployment notifservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+```

@@ -18,7 +18,7 @@ class ReporterService()(mailSender: JavaMailSender) {
   val mapper = new ScalaObjectMapper
   val tmpFile = "/tmp/tmp.json\""
   val reportFile = "report.json"
-  val offerServiceUrl = "http://localhost:8001" //fixme hardcoded url
+  val offerServiceUrl = "http://offerservice:8001"
 
   def sendReport(subscription: Subscription): Unit = {
     val msg = mailSender.createMimeMessage()

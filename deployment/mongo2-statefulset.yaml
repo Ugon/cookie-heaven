@@ -18,7 +18,7 @@ metadata:
   name: mongo2
 spec:
   serviceName: "mongo2"
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -29,22 +29,22 @@ spec:
       containers:
         - name: mongo
           image: mongo
-          command:
-            - mongod
-            - "--replSet"
-            - rs0
-            - "--smallfiles"
-            - "--noprealloc"
+#          command:
+#            - mongod
+#            - "--replSet"
+#            - rs0
+#            - "--smallfiles"
+#            - "--noprealloc"
           ports:
             - containerPort: 27017
           volumeMounts:
             - name: mongo2-persistent-storage
               mountPath: /data/db
-        - name: mongo-sidecar
-          image: cvallance/mongo-k8s-sidecar
-          env:
-            - name: MONGO_SIDECAR_POD_LABELS
-              value: "role=mongo2,environment=test"
+#        - name: mongo-sidecar
+#          image: cvallance/mongo-k8s-sidecar
+#          env:
+#            - name: MONGO_SIDECAR_POD_LABELS
+#              value: "role=mongo2,environment=test"
   volumeClaimTemplates:
   - metadata:
       name: mongo2-persistent-storage
