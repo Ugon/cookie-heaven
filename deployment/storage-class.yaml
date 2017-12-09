@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gluster-sc
+provisioner: kubernetes.io/glusterfs  
+parameters:
+  resturl: "http://192.168.0.57:8080"
+  restuser: "admin"  
+  restuserkey: "PASSWORD"
+  volumetype: "none"
