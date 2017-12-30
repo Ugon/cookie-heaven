@@ -3,7 +3,7 @@ package pl.edu.agh.iosr.cookieHeaven.order.web
 import java.util
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation._
 import pl.edu.agh.iosr.cookieHeaven.order.db.{Order, ScalaObjectMapper}
@@ -17,6 +17,11 @@ import pl.edu.agh.iosr.cookieHeaven.order.service.{OfferService, OrderService}
 @RequestMapping(Array("/orders"))
 class OrderController @Autowired()(orderService: OrderService, offerService: OfferService) {
 
+  @Value("${misc.message}")
+  var message: String = _
+
+  @GetMapping(Array("message"))
+  def msg: String = message
 
   @GetMapping
   def list: util.List[Order] = orderService.list

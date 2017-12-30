@@ -3,11 +3,12 @@ package pl.edu.agh.iosr.cookieHeaven.notification.web
 import java.util
 
 import org.slf4j.{Logger, LoggerFactory}
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.web.bind.annotation._
 import pl.edu.agh.iosr.cookieHeaven.notification.db.{ScalaObjectMapper, Subscription}
 import pl.edu.agh.iosr.cookieHeaven.notification.service.{NotificationService, ReporterService}
+
 import scala.collection.JavaConverters._
 
 @RestController
@@ -15,8 +16,14 @@ import scala.collection.JavaConverters._
 class NotificationController @Autowired()(notificationService: NotificationService,
                                           reporterService: ReporterService) {
 
+  @Value("${misc.message}")
+  var message: String = _
+
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
   val mapper = new ScalaObjectMapper
+
+  @GetMapping(Array("message"))
+  def msg: String = message
 
   @GetMapping
   def list: util.List[Subscription] = notificationService.list()

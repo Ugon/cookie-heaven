@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: order-service-app
+data:
+  server.port: "8002"
+  spring.data.mongodb.uri: mongodb://mongo3-0.mongo3:27017/order
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: notif-service-app
+data:
+  server.port: "8003"
+  spring.data.mongodb.uri: mongodb://mongo2-0.mongo2:27017/notif
+  spring.mail.host: "smtp.gmail.com"
+  spring.mail.username: iosr2018@gmail.com
+  spring.mail.password: alamakota
+  spring.mail.port: "465"
+  spring.mail.smtp.socketFactory.port: "465"
+  spring.mail.smtp.auth: "true"
+  spring.mail.properties.mail.smtp.ssl.enable: "true"
+  spring.mail.properties.mail.smtp.connectiontimeout: "5000"
+  spring.mail.properties.mail.smtp.timeout: "3000"
+  spring.mail.properties.mail.smtp.writetimeout: "5000"
+
+
+
+
+
+
+
+
+
