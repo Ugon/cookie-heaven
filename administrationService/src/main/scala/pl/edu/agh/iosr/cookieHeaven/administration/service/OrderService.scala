@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
 @Service
 class OrderService {
 
-  val orderServiceUrl = "http://localhost:8002" //fixme hardcoded port
+  val orderServiceUrl = "http://orderservice:8002"
   val client = new DefaultHttpClient()
 
   def listOrdersForOffer(id: String): Iterable[JsonNode] = {

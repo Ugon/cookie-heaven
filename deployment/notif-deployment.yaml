@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: notifservice
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: notifservice
+    spec:
+      containers:
+        - name: notifservice
+          image: ugon/notifservice:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8003
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: notifservice
+spec:
+  selector:
+    app: notifservice
+  type: NodePort
+  ports:
+  - port: 8003
+    nodePort: 30003

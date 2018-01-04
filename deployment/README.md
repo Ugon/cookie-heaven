@@ -1,5 +1,3 @@
-# cookie-heaven
-
 1. Create 5 ubuntu server 16.04 virtual machines
 ```
 k8s0
