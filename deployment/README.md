@@ -137,6 +137,11 @@ kubectl patch deployment notifservice -p "{\"spec\":{\"template\":{\"metadata\":
 
 10. deploy tools
 ```
-kubectl apply -f zipkin-starter-minimal-0.1.5-kubernetes.yml
+kubectl apply -f open-zipkin.yaml
+http://192.168.181.131:30411
 
+kubectl apply -f admin-account.yaml 
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+kubectl proxy
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!
 ```
