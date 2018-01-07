@@ -1,10 +1,9 @@
 package pl.edu.agh.iosr.cookieHeaven.order.service
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.apache.http.HttpResponse
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.DefaultHttpClient
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.client.RestTemplate
 import pl.edu.agh.iosr.cookieHeaven.order.db.ScalaObjectMapper
 
 import scala.collection.JavaConverters._
@@ -12,21 +11,18 @@ import scala.collection.JavaConverters._
 @Service
 class OfferService {
 
+  @Autowired var restTemplate: RestTemplate = _
+
   val offerServiceUrl = "http://adminservice:8001"
 
-  def get(offerId: String): HttpResponse = {
-    val client = new DefaultHttpClient()
-    val response = client.execute(new HttpGet(s"$offerServiceUrl/offers/$offerId"))
-    client.getConnectionManager.shutdown()
-    response
+  def get(offerId: String): String = {
+    restTemplate.getForObject[String](s"$offerServiceUrl/offers/$offerId", classOf[String])
   }
 
   def listOffers(): Iterable[JsonNode] = {
-    val client = new DefaultHttpClient()
-    val response = client.execute(new HttpGet(s"$offerServiceUrl/offers"))
+    val response = restTemplate.getForObject[String](s"$offerServiceUrl/offers", classOf[String])
     val mapper = new ScalaObjectMapper
-    val json = mapper.readTree(response.getEntity.getContent)
-    client.getConnectionManager.shutdown()
+    val json = mapper.readTree(response)
     json.asScala
   }
 

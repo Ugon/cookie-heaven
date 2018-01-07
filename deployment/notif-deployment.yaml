@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: notifservice
 spec:
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:

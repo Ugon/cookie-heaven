@@ -29,9 +29,9 @@ class OrderController @Autowired()(orderService: OrderService, offerService: Off
   @PostMapping
   def insert(@RequestBody order: Order): Order = {
     val response = offerService.get(order.offerId)
-    if (response.getStatusLine.getStatusCode == 404)
-      throw new OfferNotFoundException(s"Not found offer with id: ${order.offerId}")
-    val mapper = new ScalaObjectMapper
+//    if (response.getStatusLine.getStatusCode == 404)
+//      throw new OfferNotFoundException(s"Not found offer with id: ${order.offerId}")
+//    val mapper = new ScalaObjectMapper
     orderService.insert(order)
   }
 

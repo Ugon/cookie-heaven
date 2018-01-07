@@ -4,7 +4,7 @@ metadata:
   name: gluster-sc
 provisioner: kubernetes.io/glusterfs  
 parameters:
-  resturl: "http://192.168.0.57:8080"
+  resturl: "http://192.168.181.134:8080"
   restuser: "admin"  
   restuserkey: "PASSWORD"
   volumetype: "none"

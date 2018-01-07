@@ -5,7 +5,7 @@ metadata:
 data:
   application.properties: |-
     server.port: 8001
-    misc.message: dupa
+    misc.message: dupa7
     spring.data.mongodb.uri: mongodb://mongo1-0.mongo1:27017/admin
 ---
 kind: ConfigMap

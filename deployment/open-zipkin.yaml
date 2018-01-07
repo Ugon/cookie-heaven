@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: openzipkin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: openzipkin
+    spec:
+      containers:
+        - name: openzipkin
+          image: openzipkin/zipkin
+          ports:
+          - containerPort: 9411
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openzipkin
+spec:
+  selector:
+    app: openzipkin
+  type: NodePort
+  ports:
+  - port: 9411
+    nodePort: 30411

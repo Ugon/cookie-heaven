@@ -39,7 +39,7 @@ class NotificationController @Autowired()(notificationService: NotificationServi
   def delete(@PathVariable id: String): Unit = notificationService.remove(id)
 
 
-  @Scheduled(fixedRate = 5000)
+  @Scheduled(fixedRate = 30000)
   def generateReport(): Unit = {
 
     val subscriptions = notificationService.list().asScala

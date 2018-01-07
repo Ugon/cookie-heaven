@@ -5,10 +5,12 @@ import java.util.Calendar
 
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.DefaultHttpClient
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.FileSystemResource
 import org.springframework.mail.MailException
 import org.springframework.mail.javamail.{JavaMailSender, MimeMessageHelper}
 import org.springframework.stereotype.Service
+import org.springframework.web.client.RestTemplate
 import pl.edu.agh.iosr.cookieHeaven.notification.db.{ScalaObjectMapper, Subscription}
 
 
@@ -19,6 +21,8 @@ class ReporterService()(mailSender: JavaMailSender) {
   val tmpFile = "/tmp/tmp.json\""
   val reportFile = "report.json"
   val offerServiceUrl = "http://offerservice:8001"
+
+  @Autowired var restTemplate: RestTemplate = _
 
   def sendReport(subscription: Subscription): Unit = {
     val msg = mailSender.createMimeMessage()
@@ -46,13 +50,6 @@ class ReporterService()(mailSender: JavaMailSender) {
     }
   }
 
-  def fetchReport(id: String): String = {
-    val out = new StringWriter
-    val client = new DefaultHttpClient()
-    val response = client.execute(new HttpGet(s"$offerServiceUrl/offers/$id/orders"))
-    val json = mapper.readTree(response.getEntity.getContent)
-    client.getConnectionManager.shutdown()
-    mapper.writeValue(out, json)
-    out.toString
-  }
+  def fetchReport(id: String): String =
+    restTemplate.getForObject[String](s"$offerServiceUrl/offers/$id/orders", classOf[String])
 }

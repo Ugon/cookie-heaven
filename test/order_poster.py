@@ -9,7 +9,7 @@ OFFER_ID = "test_offer1"
 headers = {"Content-Type": "application/json"}
 
 while True:
-	orderServiceConnection = http.client.HTTPConnection('192.168.0.55:30002')
+	orderServiceConnection = http.client.HTTPConnection('192.168.181.132:30002')
 	uid = str(uuid.uuid4())
 	body = {
 		"id": uid,

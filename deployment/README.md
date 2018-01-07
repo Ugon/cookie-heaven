@@ -115,6 +115,8 @@ this can also be used to rebuild and replublish updated images to dockerhub
 
 8. deploy services to kubernetes:
 ```
+kubectl apply -f config-maps.yaml
+
 kubectl apply -f admin-deployment.yaml
 kubectl apply -f order-deployment.yaml
 kubectl apply -f notif-deployment.yaml
@@ -131,4 +133,10 @@ notif service is available on port 30003
 kubectl patch deployment adminservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 kubectl patch deployment orderservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 kubectl patch deployment notifservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+```
+
+10. deploy tools
+```
+kubectl apply -f zipkin-starter-minimal-0.1.5-kubernetes.yml
+
 ```
