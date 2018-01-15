@@ -9,23 +9,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import pl.edu.agh.iosr.cookieHeaven.administration.db.{Offer, ScalaObjectMapper}
 import pl.edu.agh.iosr.cookieHeaven.administration.service.{OfferService, OrderService}
 import pl.edu.agh.iosr.cookieHeaven.administration.web.OfferController
-import org.hamcrest.Matchers.containsString
 import org.mockito.Mockito.when
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 
 @RunWith(classOf[SpringRunner])
 @WebMvcTest(Array(classOf[OfferController]))
-class WebMockTest {
+class AdministrationServiceWebMockTest {
 
     val testOffer1 = Offer("1", "testcookie1", 1.23)
     val testOffer2 = Offer("2", "testcookie2", 9.71)
