@@ -2,14 +2,14 @@ package pl.edu.agh.iosr.cookieHeaven.administration.web
 
 import java.util
 
-import com.fasterxml.jackson.databind.JsonNode
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.cloud.sleuth.SpanAccessor
 import org.springframework.http.HttpStatus
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation._
-import pl.edu.agh.iosr.cookieHeaven.administration.db.Offer
-import pl.edu.agh.iosr.cookieHeaven.administration.service.{OfferService, OrderService}
+import pl.edu.agh.iosr.cookieHeaven.administration.db.{Offer, ServiceUser}
+import pl.edu.agh.iosr.cookieHeaven.administration.service.{OfferService, OrderService, UserService}
 
 
 /**
@@ -19,7 +19,7 @@ import pl.edu.agh.iosr.cookieHeaven.administration.service.{OfferService, OrderS
 
 @RestController
 @RequestMapping(Array("/offers"))
-class OfferController @Autowired()(offerService: OfferService, orderService: OrderService) {
+class OfferController @Autowired()(offerService: OfferService, orderService: OrderService, userService: UserService) {
 
   @Autowired var spanAccessor: SpanAccessor = _
 
@@ -63,6 +63,11 @@ class OfferController @Autowired()(offerService: OfferService, orderService: Ord
   @GetMapping(Array("{id}/orders"))
   def listOrdersForOffer(@PathVariable id: String): String =
     orderService.listOrdersForOffer(id)
+
+  @PostMapping(Array("users"))
+  def registerUser(@RequestParam login: String, @RequestParam pass: String): Unit = {
+    userService.add(ServiceUser(login, new BCryptPasswordEncoder().encode(pass)))
+  }
 
 
   @ExceptionHandler

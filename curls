@@ -1,16 +1,17 @@
 get offers:
-curl http://192.168.181.132:30001/offers
-curl http://192.168.181.132:30002/orders/offers
+curl http://54.171.79.30:8001/offers
+curl http://54.171.79.30:8002/orders/offers
 
 post offer:
-curl -H "Content-Type: application/json" -X POST -d '{"id":"offer3","name":"offer3","price":7.0}' http://192.168.181.132:30001/offers
+curl -H "Content-Type: application/json" -X POST -d '{"id":"offer3","name":"offer3","price":7.0}' http://54.171.79.30:8001
+/offers
 
 get orders:
-curl http://192.168.181.132:30001/offers/offer2/orders
-curl http://192.168.181.132:30002/orders/offers/offer2
+curl http://54.171.79.30:8001/offers/offer2/orders
+curl http://54.171.79.30:8002/orders/offers/offer2
 
 post order:
-curl -H "Content-Type: application/json" -X POST -d '{"id":"order1","firstname":"a","lastname":"b","offerId":"offer1","quantity":7}' http://192.168.181.132:30002/orders
+curl -H "Content-Type: application/json" -X POST -d '{"id":"order1","firstname":"a","lastname":"b","offerId":"offer1","quantity":7}' http://54.171.79.30:8002/orders
 
 
 

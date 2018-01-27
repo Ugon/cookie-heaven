@@ -5,9 +5,10 @@ import java.util
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.http.HttpStatus
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation._
-import pl.edu.agh.iosr.cookieHeaven.order.db.{Order, ScalaObjectMapper}
-import pl.edu.agh.iosr.cookieHeaven.order.service.{OfferService, OrderService}
+import pl.edu.agh.iosr.cookieHeaven.order.db.{Order, ServiceUser}
+import pl.edu.agh.iosr.cookieHeaven.order.service.{OfferService, OrderService, UserService}
 
 
 /**
@@ -15,7 +16,7 @@ import pl.edu.agh.iosr.cookieHeaven.order.service.{OfferService, OrderService}
   */
 @RestController
 @RequestMapping(Array("/orders"))
-class OrderController @Autowired()(orderService: OrderService, offerService: OfferService) {
+class OrderController @Autowired()(orderService: OrderService, offerService: OfferService, userService: UserService) {
 
   @Value("${misc.message}")
   var message: String = _
@@ -45,6 +46,11 @@ class OrderController @Autowired()(orderService: OrderService, offerService: Off
 
   @DeleteMapping(Array("{id}"))
   def delete(@PathVariable id: String): Unit = orderService.remove(id)
+
+  @PostMapping(Array("users"))
+  def registerUser(@RequestParam login: String, @RequestParam pass: String): Unit = {
+    userService.add(ServiceUser(login, new BCryptPasswordEncoder().encode(pass)))
+  }
 
   @ExceptionHandler
   @ResponseStatus(HttpStatus.NOT_FOUND)
