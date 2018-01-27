@@ -1,5 +1,3 @@
-# cookie-heaven
-
 1. Create 5 ubuntu server 16.04 virtual machines
 ```
 k8s0
@@ -117,6 +115,8 @@ this can also be used to rebuild and replublish updated images to dockerhub
 
 8. deploy services to kubernetes:
 ```
+kubectl apply -f config-maps.yaml
+
 kubectl apply -f admin-deployment.yaml
 kubectl apply -f order-deployment.yaml
 kubectl apply -f notif-deployment.yaml
@@ -133,4 +133,15 @@ notif service is available on port 30003
 kubectl patch deployment adminservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 kubectl patch deployment orderservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 kubectl patch deployment notifservice -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+```
+
+10. deploy tools
+```
+kubectl apply -f open-zipkin.yaml
+http://192.168.181.131:30411
+
+kubectl apply -f admin-account.yaml 
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+kubectl proxy
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!
 ```
